@@ -1,0 +1,6 @@
+{% extends cms__layout_template %}{% block cms__page_content %}
+
+Thanks! You're the best!
+
+
+{% endblock %}

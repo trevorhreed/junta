@@ -1,0 +1,12 @@
+{% extends '_common/base' %}
+
+{% block title %}Junta Foundation{% endblock %}
+
+{% block head %}
+{% block header%}{% endblock %}
+{% endblock %}
+
+{% block body %}
+	<h1>Junta Foundation</h1>
+{% block content %}{% endblock %}
+{% endblock%}

@@ -1,0 +1,62 @@
+{% extends "/admin/_common/layout.admin.utils" %}
+{% block admin_utils_head %}
+	<style type='text/css'>
+
+	</style>
+	<script type="text/javascript">
+		function Add() {
+			jax.call('post', $('#frmNewBudgetRange').serialize(), '#lstBudgetRanges');
+			$('#txtBudgetRange_Name').val('');
+			$('#txtBudgetRange_Min').val('');
+			$('#txtBudgetRange_Max').val('');
+		}
+		function Rename(budgetrangeId, oldName) {
+			var newName = oldName
+			if( newName = prompt("Please specify a new name for the budget range:", oldName) ) {
+				jax.call('rename', {'budgetrange_id': budgetrangeId, 'new_name': newName}, '#lstBudgetRanges');
+			}
+		}
+		function Delete(budgetrangeId) {
+			if( confirm("Are you sure you want to delete this budget range?") ) {
+				jax.call('delete', {'budgetrange_id': budgetrangeId}, '#lstBudgetRanges');
+			}
+		}
+
+	</script>
+{% endblock %}
+{% block caption %}Utilities - Budget Ranges{% endblock %}
+{% block toolbar %}
+	{# <a href="javascript:void(0);" onclick="NewLayout();">New Layout</a> #}
+{% endblock %}
+{% block content %}
+
+<div style="margin-bottom:2em;">
+<form id="frmNewBudgetRange">
+	<table class="table_form">
+		<tr>
+			<td>Name</td>
+			<td><input type="text" id="txtBudgetRange_Name" name="budgetrange[Name]" /></td>
+		</tr>
+		<tr>
+			<td>Min</td>
+			<td><input type="text" id="txtBudgetRange_Min" name="budgetrange[Min]" /></td>
+		</tr>
+		<tr>
+			<td>Max</td>
+			<td><input type="text" id="txtBudgetRange_Max" name="budgetrange[Max]" /></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td><input type="button" value="Add" onclick="Add();" /></td>
+		</tr>
+	</table>
+</form>
+</div>
+<div id="lstBudgetRanges">
+	{% include '/admin/utils/budgetranges_list' %}
+</div>
+
+
+
+
+{% endblock %}

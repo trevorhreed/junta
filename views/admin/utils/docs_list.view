@@ -1,0 +1,36 @@
+<style>
+	.img_viewer{cursor:pointer;}
+	.img_viewer div{display:none;padding:3px;background-color:#fff;border:solid 1px #aaa;box-shadow:0 0 5pt #888;box-sizing:border-box;}
+	.img_viewer div img{height:150px;}
+	.img_viewer:hover div{display:inline-block;position:absolute;}
+</style>
+
+<table class="table_records">
+	<thead>
+		<tr>
+			<td>Name</td>
+			<td>Type</td>
+			<td></td>
+		</tr>
+	</thead>
+	<tbody>
+{% for doc in docs %}
+	<tr>
+		<td>{{doc.Name}}</td>
+		<td>
+			{% if doc.Mime and doc.Mime.startswith('image/') %}
+			<span class="img_viewer"><img src='/static/icons/mimes/{{doc.Mime[0:doc.Mime.index('/')]}}.png' />
+				<div><img src="/utils/docs/{{doc.id()}}" /></div>
+			</span>
+			{% else %}
+			<img src='/static/icons/mimes/{{doc.Mime[0:doc.Mime.index('/')]}}.png' />
+			{% endif %}
+		</td>
+		<td>
+			<a href="javascript:void(0);" onclick="RenameDocument('{{doc.id()}}', '{{doc.Name}}');">Rename</a>
+			<a href="javascript:void(0);" onclick="DeleteDocument('{{doc.id()}}');">Delete</a>
+		</td>
+	</tr>
+{% endfor %}
+	</tbody>
+</table>

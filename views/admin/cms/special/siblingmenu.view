@@ -1,0 +1,5 @@
+<ul class="siblingmenu">
+{% for page in pages %}
+	<li><a href="{{page.Path}}">{{page.Link}}</a></li>
+{% endfor %}
+</ul>

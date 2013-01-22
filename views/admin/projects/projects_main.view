@@ -1,0 +1,50 @@
+{% extends "/admin/_common/layout.admin.projects" %}
+{% block admin_projects_head %}
+	<style type='text/css'>
+		.tbl_projects {border-collapse:collapse;height:100%;}
+		.tbl_projects thead tr:last-child td{font-weight:bold;border-bottom:solid 1px #555}
+		.tbl_projects td{padding:.5em 1em;}
+
+	</style>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('.project_phases').change(function(){
+				var projectId = $(this).attr('data-project-id');
+				var phaseId = $(this).val();
+				jax.call('update_phase', {'project_id':projectId,'phase_id':phaseId});
+			});
+		});
+	</script>
+{% endblock %}
+{% block caption %}Projects{% endblock %}
+{% block toolbar %}
+	<div style='display:none;'><a href="javascript:void(0);" onclick="NewPage();">New Project</a></div>
+{% endblock %}
+{% block content %}
+
+
+<table class="tbl_projects">
+	<thead>
+		<td>Project Name</td>
+		<td>Phase</td>
+	</thead>
+	<tbody>
+		{% for project in projects %}
+			<tr>
+				<td>{{project.Title}}</td>
+				<td>
+					<select data-project-id="{{project.key.urlsafe()}}" class="project_phases">
+						{% for value, phase in phases.items() %}
+						<option value="{{value}}"{% if value == project.Phase %} selected="selected"{% endif %}>{{phase}}</option>
+						{% endfor %}
+					</select>
+				</td>
+			</tr>
+		{% else %}
+			<tr><td>No Projects.</td></tr>
+		{% endfor %}
+	</tbody>
+</table>
+
+
+{% endblock %}
