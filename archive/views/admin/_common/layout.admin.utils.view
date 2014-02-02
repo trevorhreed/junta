@@ -1,0 +1,20 @@
+{% extends "/admin/_common/layout.admin" %}
+
+{% block admin_head %}
+	{%block admin_utils_head %}{% endblock %}
+{% endblock %}
+{% block admin_nav %}
+	<script type="text/javascript">$(".nav_primary_item").removeClass('selected').filter("[href='/admin/utils/']").addClass('selected');</script>
+	<div id="nav_secondary">
+		<a class="nav_secondary_item" href="/admin/utils/docs">Documents</a>
+		<a class="nav_secondary_item" href="/admin/utils/devsectors">Development Sectors</a>
+		<a class="nav_secondary_item" href="/admin/utils/budgetranges">Budget Ranges</a>
+
+		<a class="nav_secondary_item" href="/admin/utils/setup">Setup</a>
+	</div>
+	<script type="text/javascript">$(".nav_secondary_item[href='"+window.location.pathname+"']").addClass('selected');</script>
+	<div id='toolbar'>
+	{% block toolbar %}{% endblock %}
+	</div>
+	<div style='clear:both;'></div>
+{% endblock %}

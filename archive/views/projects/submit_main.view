@@ -1,0 +1,85 @@
+{% extends cms__layout_template %}{% block cms__page_content %}
+
+
+<form method="post" enctype="multipart/form-data">
+<input type="hidden" name="method" value="submit" />
+<table class="table_form">
+	<tr>
+		<td>Title</td>
+		<td><input type="text" id="inProject_Title" name="project[Title]" /></td>
+	</tr>
+	<tr>
+		<td>Development Sector</td>
+		<td>
+			<select id="inProject_DevelopmentSector" name="project[DevelopmentSector]">
+				{% for devsector in devsectors %}
+					<option value="{{devsector.id()}}">{{devsector.Name}}</option>
+				{% endfor %}
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td>Countries</td>
+		<td>
+			<select id="inProject_Countries" name="project[CountryIds]" multiple="multiple">
+				{% for country in countries %}
+					<option>{{country}}</option>
+				{% endfor %}
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td>Image</td>
+		<td><input type="file" id="inProject_Image" name="project[Image]" /></td>
+	</tr>
+	<tr>
+		<td>Brief Abstract</td>
+		<td><textarea id="inProject_BriefAbstract" name="project[BriefAbstract]" rows="5" cols="60"></textarea></td>
+	</tr>
+	<tr>
+		<td>Long Abstract</td>
+		<td><textarea id="inProject_LongAbstract" name="project[LongAbstract]" rows="8" cols="80"></textarea></td>
+	</tr>
+	<tr>
+		<td>High Impact Description</td>
+		<td><textarea id="inProject_HighImpactDescription" name="project[HighImpactDescription]" rows="8" cols="80"></textarea></td>
+	</tr>
+	<tr>
+		<td>Sustainability Description</td>
+		<td><textarea id="inProject_SustainabilityDescription" name="project[SustainabilityDescription]" rows="8" cols="80"></textarea></td>
+	</tr>
+	<tr>
+		<td>Innovation Description</td>
+		<td><textarea id="inProject_InnovationDescription" name="project[InnovationDescription]" rows="8" cols="80"></textarea></td>
+	</tr>
+	<tr>
+		<td>Budget Description</td>
+		<td><textarea id="inProject_BudgetDescription" name="project[BudgetDescription]" rows="8" cols="80"></textarea></td>
+	</tr>
+	<tr>
+		<td>Budget Worksheet</td>
+		<td><input type="file" id="inProject_BudgetWorksheet" name="project[BudgetWorksheet]" /></td>
+	</tr>
+	<tr>
+		<td>Budget Notes</td>
+		<td><input type="text" id="inProject_BudgetNotes" name="project[BudgetNotes]" /></td>
+	</tr>
+	<tr>
+		<td>Budget Range</td>
+		<td>
+			<select id="inProject_BudgetRange" name="project[BudgetRange]">
+				{% for budgetrange in budgetranges %}
+					<option value="{{budgetrange.id()}}">{{budgetrange.get_label()}}</option>
+				{% endfor %}
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td></td>
+		<td><input type="submit" value="submit" />
+	</tr>
+</table>
+</form>
+
+
+{% endblock %}

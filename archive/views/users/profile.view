@@ -1,0 +1,5 @@
+{% extends cms__layout_template %}{% block cms__page_content %}
+
+Library App
+
+{% endblock %}

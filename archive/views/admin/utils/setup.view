@@ -1,0 +1,114 @@
+{% extends "/admin/_common/layout.admin.utils" %}
+{% block admin_utils_head %}
+	<style type="text/css">
+		.setup_warning{
+			margin:1em auto;
+			width:20em;
+			padding:1em;
+			background-color:#fee;
+			color:#f00;
+			text-align:center;
+			border:solid 1px #fcc;
+			border-radius:1em;
+		}
+		.setup_warning span{
+			margin-bottom:.5em;
+			display:block;
+			font-weight:bold;
+			font-size:12pt;
+			color:#a00;
+		}
+		.setup_container{
+			margin:5em auto 8em;
+			width:50em;
+			text-align:center;
+		}
+		.setup_caption{
+			margin:1em;
+			font-size:2em;
+			border-bottom:solid 1px #555;
+		}
+		.setup_button{
+			margin:0em 1em;
+			padding:.5em 2em;
+			display:inline-block;
+			color:#000;
+			font-weight:bold;
+			font-size:10pt;
+			cursor:pointer;
+			border:solid 1px #bbb;
+			background-color:#ddd;
+			border-radius:.5em;
+			box-shadow: 0 0 .1em #aaa;
+
+			user-select:none;
+			-webkit-user-select:none;
+			-mox-user-select:none;
+			-o-user-select:none;
+
+			transition: box-shadow .3s;
+			-webkit-transition: box-shadow .3s;
+			-moz-transition: box-shadow .3s;
+			-o-transition: box-shadow .3s;
+
+			transition: background-color .3s;
+			-webkit-transition: background-color .3s;
+			-moz-transition: background-color .3s;
+			-o-transition: background-color .3s;
+		}
+		.setup_button:hover{
+
+			border:solid 1px #ccc;
+			background-color:#eee;
+			box-shadow: 0 0 .3em #aaa;
+
+			transition: box-shadow .3s;
+			-webkit-transition: box-shadow .3s;
+			-moz-transition: box-shadow .3s;
+			-o-transition: box-shadow .3s;
+
+			transition: background-color .3s;
+			-webkit-transition: background-color .3s;
+			-moz-transition: background-color .3s;
+			-o-transition: background-color .3s;
+		}
+		.setup_button:active{
+			box-shadow: 0 0 .1em #aaa;
+		}
+
+		.setup_label{
+			margin:2em;
+			padding:1em;
+			background-color:#eee;
+		}
+	</style>
+	<script type="text/javascript">
+		function PopulateDatabase() {
+			jax.call('populate_database', {}, '#msgResults');
+		}
+		function ClearDatabase() {
+			if( confirm("Are you sure you want to clear the entire database?") ) {
+				jax.call('clear_database', {}, '#msgResults');
+			}
+		}
+	</script>
+{% endblock %}
+{% block caption %}Utilities - Setup{% endblock %}
+{% block toolbar %}
+	{# <a href="javascript:void(0);" onclick="NewLayout();">New Layout</a> #}
+{% endblock %}
+{% block content %}
+
+<div class="setup_warning"><span>Warning!</span>This page is for development purposes and should not be tampered with.  In other words, you could really mess things up by playing around with this page!</div>
+
+<div class="setup_container">
+	<div class="setup_caption">Database</div>
+	<div class="setup_button" onclick="PopulateDatabase();">Populate</div>
+	<div class="setup_button" onclick="ClearDatabase();">Clear</div>
+	<div class="setup_label" id="msgResults"></div>
+</div>
+
+
+
+
+{% endblock %}

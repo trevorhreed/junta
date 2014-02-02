@@ -1,0 +1,134 @@
+{% extends "/admin/_common/layout.admin.cms" %}
+{% block admin_cms_head %}
+	<style type='text/css'>
+		#splitview{
+			border-collapse:collapse;
+			dheight:100%;
+			width:100%;
+		}
+		#splitview > tbody > tr > td{
+			dborder:solid 1px #eee;
+			overflow-y:auto;
+			box-sizing:border-box;
+			height:100%;
+			vertical-align:top;
+		}
+		#splitview > tbody > tr > td:first-child{
+			width:30%;
+		}
+		#splitview > tbody > tr > td:last-child{
+			width:70%;
+			padding:1em;
+		}
+
+		.tbl_detail {border-collapse:collapse;width:100%;height:100%;}
+		.tbl_detail tr  td:first-child{white-space:nowrap;width:1px;text-align:right;padding:.5em 1em .5em .5em;}
+
+		#divSitemap .sitenode{
+			padding:.5em;
+			cursor:pointer;
+		}
+		#divSitemap .sitenode.selected{
+			background-color:#ddd;
+		}
+		#divSitemap .sitenode:hover{
+			background-color:#eee;
+		}
+		#divSitemap .sitenode .toolbelt{
+			float:right;
+		}
+		#divSitemap .sitenode .sitenode_name{
+			font-weight:bold;
+			color:#000;
+		}
+		#divSitemap .sitenode .sitenode_path{
+			color:#aaa;
+		}
+	</style>
+	<script type="text/javascript">
+		var ckeInput;
+		$(window).keypress(function(e){
+			if(e.keyCode == 19) {
+				SavePage();
+			}
+		});
+		function NewPage(event, parentpageId) {
+			$('#divSitemap .sitenode').removeClass('selected');
+			var params = (parentpageId == 'undefined') ? {} : {'parentpage_id': parentpageId};
+			jax.call('new', params, '#divEdit');
+			event.stopPropagation();
+		}
+		function EditPage(pageId) {
+			jax.call('edit', {'page_id':pageId}, '#divEdit');
+		}
+		function RevertPage(pageId) {
+			if( confirm("Are you sure you want to abandon all changes?") ) {
+				jax.call('edit', {'page_id':pageId}, '#divEdit');
+			}
+		}
+		function SavePage() {
+			$('#hidPageContent').val(ckeInput.getData());
+			if( $('#selPagePath').is(":visible") ) {
+				$('#hidPagePath').val( $('#selPagePath').val() );
+			}
+			if( $('#divPagePath').is(":visible") ) {
+				$('#hidPagePath').val( $('#txtPagePath').val() );
+			}
+			jax.call('save', $('#frmEditPage').serialize(), ['#divSitemap','#divEdit']);
+		}
+		function DeletePage(pageId) {
+			if( confirm("Are you sure you want to delete this page?") ) {
+				jax.call('delete', {'page_id':pageId}, ['#divSitemap','#divEdit']);
+			}
+		}
+		function ViewPage(path) {
+			window.open(path, '_blank');
+		}
+		function UpdatePageType(){
+			var pageType = $('#selPageType').val()
+			switch(pageType) {
+				case '1':
+					$('#rowContent').fadeIn(300);
+					$('#selPagePath').fadeOut(300, function(){
+						$('#divPagePath').fadeIn(300);
+					});
+					break;
+				case '2':
+					$('#rowContent').fadeOut(300);
+					$('#divPagePath').fadeOut(300, undefined, function(){
+						$('#selPagePath').fadeIn(300);
+					});
+					break;
+				case '3':
+					$('#rowContent').fadeOut(300);
+					$('#selPagePath').fadeOut(300, function(){
+						$('#divPagePath').fadeIn(300);
+					});
+					break;
+				default:
+					break;
+			}
+		}
+
+	</script>
+{% endblock %}
+{% block caption %}Content Management System - Pages{% endblock %}
+{% block toolbar %}
+	<a href="javascript:void(0);" onclick="NewPage();">New Page</a>
+{% endblock %}
+{% block content %}
+<table id="splitview"><tbody><tr><td>
+
+	<div id='divSitemap'>
+		{% include "/admin/cms/pages_list" %}
+	</div>
+
+</td><td>
+
+	<div id='divEdit' style="height:100%;">
+		{% include '/admin/cms/pages_edit' %}
+	</div>
+
+</td></tr></tbody></table>
+
+{% endblock %}

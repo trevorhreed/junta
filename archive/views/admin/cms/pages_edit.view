@@ -1,0 +1,113 @@
+{% if page %}
+<script type="text/javascript">var CKEDITOR_BASEPATH = '/static/tools/ckeditor/';</script>
+<script type="text/javascript" src="/static/tools/ckeditor/ckeditor.js"></script>
+<form id="frmEditPage" style="height:100%;">
+<table class="tbl_detail">
+		<tr>
+				<td colspan=2 style='text-align:right;'>
+						{% if is_saved %}
+						<input type='hidden' name='page[id]' value='{{page.key.urlsafe()}}' />
+						<input type='button' value='View' onclick="ViewPage('{{page.Path}}');" />
+						<input type="button" value="Delete" onclick="DeletePage('{{page.key.urlsafe()}}');" />
+						<input type='button' value='Revert' onclick="RevertPage('{{page.key.urlsafe()}}');" />
+						{% else %}
+						<input type='hidden' name='page[id]' value='new' />
+						{% endif %}
+						<input type='button' value='Save' onclick='SavePage();' />
+				</td>
+		</tr>
+		<tr>
+				<td>Parent Page</td>
+				<td>
+						<select name='page[ParentPage]'>
+						<option value='None'>None</option>
+						{% for parent in parents %}
+								{% if not is_saved or page.key != parent.key %}
+								<option {% if parent_page_key == parent.key.urlsafe() %}selected="selected"{% endif %} value="{{parent.key.urlsafe()}}">{{parent.Name}}</option>
+								{% endif %}
+						{% endfor %}
+						</select>
+				</td>
+		</tr>
+		<tr>
+				<td>Layout</td>
+				<td>
+						<select name='page[Layout]'>
+						{% for layout in layouts %}
+								<option {% if page.Layout and page.Layout.key == layout.key %}selected="selected"{% endif %} value="{{layout.key.urlsafe()}}">{{layout.Name}}</option>
+						{% endfor %}
+						</select>
+				</td>
+		</tr>
+		<tr>
+				<td>Type</td>
+				<td>
+						<select name='page[Type]' id='selPageType' onchange="UpdatePageType()" onblur="UpdatePageType()">
+								{% for key, type in page_types.items() %}
+										<option value="{{key}}" {% if page.Type == key %}selected="selected"{% endif %}>{{type}}</option>
+								{% endfor %}
+						</select>
+				</td>
+		</tr>
+		<tr>
+				<td>Name</td>
+				<td><input type='text' name='page[Name]' value='{{page.Name}}' /></td>
+		</tr>
+		<tr>
+				<td>Path</td>
+				<td>
+						<input type='hidden' id="hidPagePath" name='page[Path]' value='{{page.Path}}' />
+						<div id="divPagePath" {% if page.Type == 2 %}style='display:none;'{% endif %}>
+								<input type='text' id='txtPagePath' value='{% if page.Type != 2 %}{{page.Path}}{% endif %}' onkeyup="CheckIfIsModulePath(this.value);" />
+								<span id="msgPathValidation"></span>
+						</div>
+						<select id='selPagePath' {% if page.Type != 2 %}style='display:none;'{% endif %}>
+								{% for module in modules %}
+								<option {% if module == page.Path %}selected="selected"{% endif %} >{{module}}</option>
+								{% endfor %}
+						</select>
+				</td>
+		</tr>
+		<tr>
+				<td>Link Caption</td>
+				<td>
+						<input type='text' name='page[Link]' value='{{page.Link}}' />
+				</td>
+		</tr>
+		<tr>
+				<td>Sort</td>
+				<td><input type='text' name='page[Sort]' value='{{page.Sort}}' /></td>
+		</tr>
+		<tr>
+				<td>Published</td>
+				<td><input type='checkbox' name='page[Enabled]' checked='checked' /></td>
+		</tr>
+		<tr>
+				<td>Visible On Sibling Menu</td>
+				<td><input type='checkbox' name='page[SiblingMenu]' checked='checked' /></td>
+		</tr>
+		<tr>
+				<td>Visible On Site Menu</td>
+				<td><input type='checkbox' name='page[SiteMenu]' checked='checked' /></td>
+		</tr>
+		<tr id="rowContent" {% if page and is_saved and page.Type != 1 %}style="display:none;"{% endif %}>
+				<td colspan=2 style="height:100%;vertical-align:top;">
+						<textarea id="ckeContent" style="width:100%;height:100%;min-height:20em;border:solid 1px #ddd;">{{page.Content}}</textarea>
+						<input type="hidden" id="hidPageContent" name="page[Content]" />
+						<script type="text/javascript">
+								if(ckeInput)
+										CKEDITOR.remove(ckeInput);
+								ckeInput = CKEDITOR.replace('ckeContent');
+						</script>
+				</td>
+		</tr>
+</table>
+</form>
+
+{% if is_saved %}
+<script type="text/javascript">$("#divSitemap .sitenode").removeClass('selected').filter("[data-key='{{page.key.urlsafe()}}']").addClass('selected');</script>
+{% endif %}
+
+{% else %}
+No page selected.
+{% endif %}

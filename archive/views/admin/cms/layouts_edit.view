@@ -1,0 +1,53 @@
+{% if layout %}
+
+<link href="/static/tools/prettify/prettify.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="/static/tools/prettify/prettify.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+		prettyPrint();
+});
+</script>
+
+<form id="frmEditLayout" style="height:100%;">
+<table class="tbl_detail">
+		<tr>
+				<td colspan=2 style='text-align:right;'>
+						{% if is_saved %}
+						<input type='hidden' name='layout[id]' value='{{layout.id()}}' />
+						<input type='button' value='Preview' onclick="PreviewLayout('{{layout.Path}}');" />
+						<input type="button" value="Delete" onclick="DeleteLayout('{{layout.id()}}');" />
+						<input type='button' value='Revert' onclick="RevertLayout('{{layout.id()}}');" />
+						{% else %}
+						<input type='hidden' name='layout[id]' value='new' />
+						{% endif %}
+						<input type='button' value='Save' onclick='SaveLayout();' />
+				</td>
+		</tr>
+		<tr>
+				<td>Name</td>
+				<td><input type='text' name='layout[Name]' value='{{layout.Name}}' /></td>
+		</tr>
+		<tr>
+				<td>Available Variables:</td>
+				<td>
+						{{ '{{' }}SiteMenu{{ '}}' }}
+						{{ '{{' }}SiblingMenu{{ '}}' }}
+						{{ '{{' }}Content{{ '}}' }}
+				</td>
+		</tr>
+		<tr>
+				<td colspan=2 style="height:100%;">
+						<textarea name='layout[Content]' class="prettyprint" style="width:100%;height:100%;min-height:20em;border:solid 1px #ddd;">{{layout.Content}}</textarea>
+						<pre id="codeContent" class="prettyprint lang-html prettyprinted">{{layout.Content}}</pre>
+				</td>
+		</tr>
+</table>
+</form>
+
+{% if is_saved %}
+<script type="text/javascript">$('#divLayoutList .item').removeClass('selected').filter("[data-key='{{layout.id()}}']").addClass('selected');</script>
+{% endif %}
+
+{% else %}
+No layout selected.
+{% endif %}

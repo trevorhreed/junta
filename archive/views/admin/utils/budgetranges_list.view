@@ -1,0 +1,25 @@
+<table class="table_records">
+	<thead>
+		<tr>
+			<td>Name</td>
+			<td>Min</td>
+			<td>Max</td>
+			<td>Label</td>
+			<td></td>
+		</tr>
+	</thead>
+	<tbody>
+{% for budgetrange in budgetranges %}
+	<tr>
+		<td>{{budgetrange.Name}}</td>
+		<td>{{budgetrange.Min}}</td>
+		<td>{{budgetrange.Max}}</td>
+		<td>{{budgetrange.get_label()}}</td>
+		<td>
+			<a href="javascript:void(0);" onclick="Rename('{{budgetrange.key.urlsafe()}}', '{{budgetrange.Name}}');">Rename</a>
+			<a href="javascript:void(0);" onclick="Delete('{{budgetrange.key.urlsafe()}}');">Delete</a>
+		</td>
+	</tr>
+{% endfor %}
+	</tbody>
+</table>

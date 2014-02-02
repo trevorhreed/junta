@@ -1,0 +1,48 @@
+{% extends cms__layout_template %}{% block cms__page_content %}
+
+<style type="text/css">
+.signinlinks{
+	text-align:center;
+	margin:5em 3em;
+}
+.signinlinks a{
+	margin:1em;
+	padding:1em;
+	font-size:18pt;
+	text-decoration:none;
+	color:#000;
+}
+.signinlinks a:hover{
+	box-shadow: 0em 0em .3em #000;
+}
+.signinlinks a:active{
+	box-shadow: 0em 0em .2em #000;
+}
+.signinlinks img{
+	margin-right:.5em;
+	vertical-align:middle;
+}
+.signinlinks #divInstructions{
+	font-weight:bold;
+	margin-bottom:4em;
+}
+</style>
+<script type="text/javascript">
+	function doSignIn(provider) {
+		jax.call('signin', {'provider': provider}, '');
+	}
+</script>
+
+<div class="signinlinks">
+{% if username %}
+	<div id="divInstructions">You are already signed in as "{{username}}"</div>
+	<a href="{{signout_uri}}">Logout</a>
+{% else %}
+	<div id="divInstructions">Please sign in using one of the following accounts:</div>
+	{% for name, image_src, signin_uri in providers %}
+		<a href="{{signin_uri}}"><img src="{{image_src}}" />{{name}}</a>
+	{% endfor %}
+{% endif %}
+</div>
+
+{% endblock %}

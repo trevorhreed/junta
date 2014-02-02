@@ -1,0 +1,9 @@
+<div id="mini_signin">
+{% if username %}
+	<span>{{username}} | <a href="{{signout_uri}}">Logout</a></span>
+{% else %}
+	{% for name, image_src, signin_uri in providers %}
+		<a href="{{signin_uri}}"><img src="{{image_src}}" style="height:20px;vertical-align:middle;" /></a>
+	{% endfor %}
+{% endif %}
+</div>
