@@ -1,6 +1,0 @@
-{% extends "_common/layout.master" %}
-{% block content %}
-
-Index View
-
-{% endblock %}

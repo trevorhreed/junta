@@ -1,8 +1,0 @@
-
-
-<ul class="sitemenu">{% for page in pages recursive %}
-<li><a href="{{page.Path}}">{{page.Link}}</a>{% set children = page.children() %}{% if children.count() > 0 %}
-<ul>{{ loop(children) }}
-</ul>
-{% endif %}</li>{% endfor %}
-</ul>

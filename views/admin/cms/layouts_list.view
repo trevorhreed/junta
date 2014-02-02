@@ -1,3 +1,0 @@
-{% for layout in layouts %}
-	<div class="item" data-key="{{layout.id()}}" onclick="EditLayout('{{layout.id()}}');">{{layout.Name}}</div>
-{% endfor %}
